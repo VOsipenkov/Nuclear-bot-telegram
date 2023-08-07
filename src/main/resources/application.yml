@@ -1,0 +1,10 @@
+#spring:
+#  kafka:
+#    consumer:
+#      key-deserializer:
+#      value-deserializer:
+#    template:
+#      default-topic:
+bot:
+  username: nuclear-bot
+  token: 6644705467:AAGB3_pbbn41lGzfbWwI6xBIT3kWYGbyGE0
