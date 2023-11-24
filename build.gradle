@@ -27,6 +27,9 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation group: 'org.telegram', name: 'telegrambots', version: '6.7.0'
+	implementation group: 'org.telegram', name: 'telegrambotsextensions', version: '6.7.0'
 }
 
 tasks.named('test') {
