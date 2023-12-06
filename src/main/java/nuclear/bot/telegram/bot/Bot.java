@@ -29,7 +29,7 @@ public class Bot extends TelegramLongPollingCommandBot {
         this.register(new EveryEveningPeriodCommand("/evening", "every evening notification"));
         this.register(new EveryMorningPeriodCommand("/morning", "every evening notification"));
         this.register(new EveryHourPeriodCommand("/hour", "every hour notification"));
-        this.register(new EveryMinutePeriodCommand("/minute", "every minute notification"));
+        this.register(new CurrentStateCommand("/minute", "every minute notification"));
     }
 
     @Override

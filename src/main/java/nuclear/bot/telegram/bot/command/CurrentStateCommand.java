@@ -9,9 +9,9 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
-public class EveryMinutePeriodCommand extends BotCommand {
+public class CurrentStateCommand extends BotCommand {
 
-    public EveryMinutePeriodCommand(String commandIdentifier, String description) {
+    public CurrentStateCommand(String commandIdentifier, String description) {
         super(commandIdentifier, description);
     }
 
@@ -19,7 +19,7 @@ public class EveryMinutePeriodCommand extends BotCommand {
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
         var sendMessage = SendMessage.builder()
                 .chatId(chat.getId().toString())
-                .text("set notification in every minute")
+                .text("get current state")
                 .build();
         try {
             absSender.execute(sendMessage);
