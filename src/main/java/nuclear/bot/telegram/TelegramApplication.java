@@ -6,7 +6,6 @@ import org.springframework.core.annotation.Order;
 
 @SpringBootApplication
 public class TelegramApplication {
-	@Order()
 	public static void main(String[] args) {
 		SpringApplication.run(TelegramApplication.class, args);
 	}
