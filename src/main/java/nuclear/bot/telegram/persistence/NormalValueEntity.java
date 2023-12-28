@@ -5,24 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "AGENT_MESSAGE")
+@Table(name = "normal_value")
 @NoArgsConstructor
-public class AgentMessageEntity {
+public class NormalValueEntity {
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(name="parseragentname")
+    @Setter
+    @Column(name = "parseragentname")
     private String parserAgentName;
 
-    @Column(name="messagedatetime")
-    private OffsetDateTime messageDateTime;
-
-    @Column(name="message")
-    private String message;
+    @Setter
+    @Column(name = "normalvalue")
+    private String normalValue;
 }

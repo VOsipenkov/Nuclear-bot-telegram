@@ -19,7 +19,7 @@ public class StartCommand extends BotCommand {
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
         var answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
-        answer.setText(user.getFirstName()+ " " + user.getLastName() + " successfully subscribe to nuclear bot");
+        answer.setText(user.getFirstName() + " " + user.getLastName() + " successfully request state of nuclear bot");
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {
