@@ -7,5 +7,5 @@ import java.util.UUID;
 
 @Repository
 public interface NormalValueRepository extends JpaRepository<NormalValueEntity, UUID> {
-    String findNormalValueByParserAgentName(String parserAgentName);
+    NormalValueEntity findNormalValueByParserAgentName(String parserAgentName);
 }

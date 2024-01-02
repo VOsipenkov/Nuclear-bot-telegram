@@ -43,7 +43,7 @@ public class AnalyticService {
     private boolean isNormalValuesInList(String agentMessageName, List<AgentMessageEntity> agentMessageEntityList) {
         var normalValueString = normalValueRepository.findNormalValueByParserAgentName(agentMessageName);
         log.info("normalValueString {}", normalValueString);
-        double normalValue = Double.parseDouble(normalValueString);
+        double normalValue = Double.parseDouble(normalValueString.getNormalValue());
 
         var result = agentMessageEntityList.stream()
                 .filter(agentMessage -> Double.parseDouble(agentMessage.getMessage()) >= normalValue)

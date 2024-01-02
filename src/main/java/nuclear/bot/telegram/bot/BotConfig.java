@@ -22,6 +22,6 @@ public class BotConfig {
 
     @Bean
     public CurrentStateCommand currentStateCommand(AnalyticService analyticService){
-        return new CurrentStateCommand("/minute", "every minute notification", analyticService);
+        return new CurrentStateCommand("/current", "current notification", analyticService);
     }
 }
