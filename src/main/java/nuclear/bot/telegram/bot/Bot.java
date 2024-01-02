@@ -1,11 +1,14 @@
 package nuclear.bot.telegram.bot;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nuclear.bot.telegram.bot.command.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
@@ -15,10 +18,14 @@ import java.util.List;
 public class Bot extends TelegramLongPollingCommandBot {
 
     private String botUserName;
+    private final CurrentStateCommand currentStateCommand;
 
-    public Bot(@Value("${bot.token}") String token, @Value("${bot.username}") String botUserName) {
+    public Bot(@Value("${bot.token}") String token,
+               @Value("${bot.username}") String botUserName,
+               CurrentStateCommand currentStateCommand) {
         super(token);
         this.botUserName = botUserName;
+        this.currentStateCommand = currentStateCommand;
     }
 
     @PostConstruct
@@ -29,7 +36,7 @@ public class Bot extends TelegramLongPollingCommandBot {
         this.register(new EveryEveningPeriodCommand("/evening", "every evening notification"));
         this.register(new EveryMorningPeriodCommand("/morning", "every evening notification"));
         this.register(new EveryHourPeriodCommand("/hour", "every hour notification"));
-        this.register(new CurrentStateCommand("/minute", "every minute notification"));
+        this.register(currentStateCommand);
     }
 
     @Override
