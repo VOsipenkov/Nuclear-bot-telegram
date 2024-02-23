@@ -21,7 +21,7 @@ public class ReportService {
 
         @Override
         public String toString() {
-            return agentUrl + " status " + (status ? "OK" : "ALARM!!") + "%n";
+            return agentUrl + "  status: " + (status ? "OK" : "ALARM!!") + System.lineSeparator();
         }
     }
 }
