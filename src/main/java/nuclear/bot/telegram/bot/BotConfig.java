@@ -1,7 +1,8 @@
 package nuclear.bot.telegram.bot;
 
 import nuclear.bot.telegram.bot.command.CurrentStateCommand;
-import nuclear.bot.telegram.service.AnalyticService;
+import nuclear.bot.telegram.service.AnaliticService;
+import nuclear.bot.telegram.service.ReportService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,8 @@ public class BotConfig {
     }
 
     @Bean
-    public CurrentStateCommand currentStateCommand(AnalyticService analyticService){
-        return new CurrentStateCommand("/current", "current notification", analyticService);
+    public CurrentStateCommand currentStateCommand(AnaliticService analyticService, ReportService reportService){
+        return new CurrentStateCommand("/current", "current notification",
+                analyticService, reportService);
     }
 }

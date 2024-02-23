@@ -8,41 +8,49 @@ import nuclear.bot.telegram.persistence.NormalValueEntity;
 import nuclear.bot.telegram.persistence.NormalValueRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
-public class AnalyticService {
+@RequiredArgsConstructor
+public class AnaliticService {
     private final AgentMessageRepository agentMessageRepository;
     private final NormalValueRepository normalValueRepository;
 
-    public boolean isNormalStateOfData() {
+    /**
+     * Method returns result for each agent
+     */
+    public Map<String, Boolean> prepareData() {
         var agentNames = normalValueRepository.findAll().stream()
                 .map(NormalValueEntity::getParserAgentName).toList();
 
         var messageMap = agentMessageRepository.findAll().stream()
                 .filter(message -> agentNames.contains(message.getParserAgentName()))
                 .collect(Collectors.groupingBy(AgentMessageEntity::getParserAgentName));
-        log.info("messageMap {}", messageMap);
+        log.info("Agent messages from db {}", messageMap);
 
-        AtomicBoolean isAlertState = new AtomicBoolean(false);
+        Map<String, Boolean> agentNameWithStatusMap = new HashMap<>();
         messageMap.forEach((key, value) -> {
             if (!isNormalValuesInList(key, value)) {
-                log.info("ALERT STATE!!");
-                log.info("Agent {} detect deviation", key);
-                isAlertState.set(true);
+                log.info("Alert state for agent {}", key);
+                agentNameWithStatusMap.put(key, false);
+            } else {
+                agentNameWithStatusMap.put(key, true);
             }
         });
 
-        return !isAlertState.get();
+        return agentNameWithStatusMap;
     }
 
+    /**
+     * By agentName check that received values are in normal deviation
+     */
     private boolean isNormalValuesInList(String agentMessageName, List<AgentMessageEntity> agentMessageEntityList) {
         var normalValueString = normalValueRepository.findNormalValueByParserAgentName(agentMessageName);
-        log.info("normalValueString {}", normalValueString);
+        log.info("found normal value {} for agent {}", normalValueString, agentMessageName);
         double normalValue = Double.parseDouble(normalValueString.getNormalValue());
 
         var result = agentMessageEntityList.stream()
