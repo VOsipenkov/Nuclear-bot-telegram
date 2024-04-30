@@ -1,0 +1,19 @@
+bot:
+  username: nuclear-bot
+  token: 6644705467:AAGB3_pbbn41lGzfbWwI6xBIT3kWYGbyGE0
+server:
+  port: 8080
+spring:
+  jpa:
+    show-sql: true
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    username: pgadmin
+    password: pgadmin
+    url: jdbc:postgresql://postgresdb.postgresql.svc.cluster.local:5432/nuclear?useSSL=false
+    driver-class-name: org.postgresql.Driver
