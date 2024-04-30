@@ -7,10 +7,9 @@ import nuclear.bot.telegram.persistence.AgentMessageRepository;
 import nuclear.bot.telegram.persistence.NormalValueEntity;
 import nuclear.bot.telegram.persistence.NormalValueRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,7 +31,7 @@ public class AnaliticService {
                 .collect(Collectors.groupingBy(AgentMessageEntity::getParserAgentName));
         log.info("Agent messages from db {}", messageMap);
 
-        Map<String, Boolean> agentNameWithStatusMap = new HashMap<>();
+        Map<String, Boolean> agentNameWithStatusMap = new TreeMap<>();
         messageMap.forEach((key, value) -> {
             if (!isNormalValuesInList(key, value)) {
                 log.info("Alert state for agent {}", key);
