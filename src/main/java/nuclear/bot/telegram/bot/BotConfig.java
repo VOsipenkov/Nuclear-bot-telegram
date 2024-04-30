@@ -1,6 +1,8 @@
 package nuclear.bot.telegram.bot;
 
 import nuclear.bot.telegram.bot.command.CurrentStateCommand;
+import nuclear.bot.telegram.bot.command.EveryMorningCommand;
+import nuclear.bot.telegram.persistence.ChatNotificationInfoRepository;
 import nuclear.bot.telegram.service.AnaliticService;
 import nuclear.bot.telegram.service.ReportService;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +24,14 @@ public class BotConfig {
     }
 
     @Bean
-    public CurrentStateCommand currentStateCommand(AnaliticService analyticService, ReportService reportService){
+    public CurrentStateCommand currentStateCommand(AnaliticService analyticService, ReportService reportService) {
         return new CurrentStateCommand("/current", "current notification",
                 analyticService, reportService);
+    }
+
+    @Bean
+    public EveryMorningCommand everyMorningCommand(ChatNotificationInfoRepository chatNotificationInfoRepository) {
+        return new EveryMorningCommand("/morning", "morning notification",
+                chatNotificationInfoRepository);
     }
 }
