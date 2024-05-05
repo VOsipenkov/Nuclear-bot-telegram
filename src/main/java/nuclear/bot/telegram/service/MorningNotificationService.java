@@ -23,7 +23,7 @@ public class MorningNotificationService {
     /**
      * If already morning 9 a.m. - job will notify subscribed users
      */
-    @Scheduled(cron = "0 0 9 * * *") // every day at 9:00 a.m. notification
+    @Scheduled(cron = "0 0 9,15,21 * * *") // every day at 9:00 a.m. notification
 //    @Scheduled(cron = "0 * * * * *") // every minute for debug
     public void everyMorningJob() {
         log.info("Every morning job notification job started");
