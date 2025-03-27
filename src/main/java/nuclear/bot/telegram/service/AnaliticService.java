@@ -25,21 +25,15 @@ public class AnaliticService {
     public Map<String, Boolean> prepareData() {
         var agentNames = normalValueRepository.findAll().stream()
                 .map(NormalValueEntity::getParserAgentName).toList();
+        log.info("Agent names from normalValueRepository {}", agentNames);
 
         var messageMap = agentMessageRepository.findAll().stream()
                 .filter(message -> agentNames.contains(message.getParserAgentName()))
                 .collect(Collectors.groupingBy(AgentMessageEntity::getParserAgentName));
-        log.info("Agent messages from db {}", messageMap);
+        log.info("Agent messages from db size {}, messages {}", messageMap.size(), messageMap);
 
         Map<String, Boolean> agentNameWithStatusMap = new TreeMap<>();
-        messageMap.forEach((key, value) -> {
-            if (!isNormalValuesInList(key, value)) {
-                log.info("Alert state for agent {}", key);
-                agentNameWithStatusMap.put(key, false);
-            } else {
-                agentNameWithStatusMap.put(key, true);
-            }
-        });
+        messageMap.forEach((key, value) -> agentNameWithStatusMap.put(key, isNormalValuesInList(key, value)));
 
         return agentNameWithStatusMap;
     }
@@ -55,6 +49,6 @@ public class AnaliticService {
         var result = agentMessageEntityList.stream()
                 .filter(agentMessage -> Double.parseDouble(agentMessage.getMessage()) >= normalValue)
                 .findFirst();
-        return result.isEmpty();
+        return result.isPresent();
     }
 }

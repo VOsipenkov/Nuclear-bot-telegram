@@ -1,8 +1,8 @@
 package nuclear.bot.telegram.bot.command;
 
 import lombok.extern.slf4j.Slf4j;
-import nuclear.bot.telegram.persistence.ChatNotificationInfoEntity;
-import nuclear.bot.telegram.persistence.ChatNotificationInfoRepository;
+import nuclear.bot.telegram.persistence.UserNotificationInfoEntity;
+import nuclear.bot.telegram.persistence.UserNotificationInfoRepository;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -12,10 +12,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
 public class EveryMorningCommand extends BotCommand {
-    private final ChatNotificationInfoRepository chatNotificationInfoRepository;
+    private final UserNotificationInfoRepository chatNotificationInfoRepository;
 
     public EveryMorningCommand(String commandIdentifier, String description,
-                               ChatNotificationInfoRepository chatNotificationInfoRepository) {
+                               UserNotificationInfoRepository chatNotificationInfoRepository) {
         super(commandIdentifier, description);
         this.chatNotificationInfoRepository = chatNotificationInfoRepository;
     }
@@ -31,7 +31,8 @@ public class EveryMorningCommand extends BotCommand {
                         },
                         () -> {
                             chatNotificationInfoRepository.save(
-                                    new ChatNotificationInfoEntity(chat.getId().toString(), true));
+                                    new UserNotificationInfoEntity(chat.getId().toString(), true, user.getUserName(),
+                                            user.getFirstName(), user.getLastName()));
                         });
 
         // Prepare message for chat
@@ -45,7 +46,7 @@ public class EveryMorningCommand extends BotCommand {
         try {
             absSender.execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("Can't send message to telegram");
+            log.error("Can't send message to telegram {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

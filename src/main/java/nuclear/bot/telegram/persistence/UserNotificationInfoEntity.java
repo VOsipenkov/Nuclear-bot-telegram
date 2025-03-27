@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @Table(name = "USER_NOTIFICATION_INFO")
 @NoArgsConstructor
-public class ChatNotificationInfoEntity {
+public class UserNotificationInfoEntity {
     @Id
     @GeneratedValue
     private UUID id;
@@ -21,8 +21,20 @@ public class ChatNotificationInfoEntity {
     @Column(name = "IS_EVERY_MORNING")
     private Boolean isEveryMorning;
 
-    public ChatNotificationInfoEntity(String chatId, Boolean isEveryMorning) {
+    @Column(name = "USERNAME")
+    private String userName;
+
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+
+    @Column(name = "LAST_NAME")
+    private String lastName;
+
+    public UserNotificationInfoEntity(String chatId, Boolean isEveryMorning, String userName, String firstName, String lastName) {
         this.chatId = chatId;
         this.isEveryMorning = isEveryMorning;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }
