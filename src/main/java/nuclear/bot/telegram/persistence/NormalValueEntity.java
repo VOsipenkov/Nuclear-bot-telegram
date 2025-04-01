@@ -1,6 +1,7 @@
 package nuclear.bot.telegram.persistence;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,16 +12,18 @@ import java.util.UUID;
 @Entity
 @Table(name = "normal_value")
 @NoArgsConstructor
+@AllArgsConstructor
 public class NormalValueEntity {
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Setter
     @Column(name = "parseragentname")
     private String parserAgentName;
 
-    @Setter
     @Column(name = "normalvalue")
     private String normalValue;
+
+    @Column(name="parseragenturl")
+    private String parserAgentUrl;
 }

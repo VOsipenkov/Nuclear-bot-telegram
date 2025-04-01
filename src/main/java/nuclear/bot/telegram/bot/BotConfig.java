@@ -2,7 +2,7 @@ package nuclear.bot.telegram.bot;
 
 import nuclear.bot.telegram.bot.command.CurrentStateCommand;
 import nuclear.bot.telegram.bot.command.EveryMorningCommand;
-import nuclear.bot.telegram.persistence.ChatNotificationInfoRepository;
+import nuclear.bot.telegram.persistence.UserNotificationInfoRepository;
 import nuclear.bot.telegram.service.AnaliticService;
 import nuclear.bot.telegram.service.ReportService;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ public class BotConfig {
     }
 
     @Bean
-    public EveryMorningCommand everyMorningCommand(ChatNotificationInfoRepository chatNotificationInfoRepository) {
+    public EveryMorningCommand everyMorningCommand(UserNotificationInfoRepository chatNotificationInfoRepository) {
         return new EveryMorningCommand("/morning", "morning notification",
                 chatNotificationInfoRepository);
     }
