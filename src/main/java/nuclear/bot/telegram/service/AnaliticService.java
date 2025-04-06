@@ -30,11 +30,12 @@ public class AnaliticService {
         var messageMap = agentMessageRepository.findAll().stream()
                 .filter(message -> agentNames.contains(message.getParserAgentName()))
                 .collect(Collectors.groupingBy(AgentMessageEntity::getParserAgentName));
-        log.info("Agent messages from db size {}, messages {}", messageMap.size(), messageMap);
+        log.debug("Agent messages from db size {}, messages {}", messageMap.size(), messageMap);
 
         Map<String, Boolean> agentNameWithStatusMap = new TreeMap<>();
         messageMap.forEach((key, value) -> agentNameWithStatusMap.put(key, isNormalValuesInList(key, value)));
 
+        log.info("Agent statuses {}", agentNameWithStatusMap);
         return agentNameWithStatusMap;
     }
 
@@ -43,12 +44,13 @@ public class AnaliticService {
      */
     private boolean isNormalValuesInList(String agentMessageName, List<AgentMessageEntity> agentMessageEntityList) {
         var normalValueString = normalValueRepository.findNormalValueByParserAgentName(agentMessageName);
-        log.info("found normal value {} for agent {}", normalValueString, agentMessageName);
         double normalValue = Double.parseDouble(normalValueString.getNormalValue());
-
+        log.info("Found normal value {} for agent {}", normalValueString, agentMessageName);
         var result = agentMessageEntityList.stream()
                 .filter(agentMessage -> Double.parseDouble(agentMessage.getMessage()) >= normalValue)
                 .findFirst();
+        result.ifPresent(agentMessageEntity -> log.info("Found alert message value {} for agent {}", agentMessageEntity, agentMessageName));
+        if (result.isEmpty()) log.info("No alerts for agent {}", agentMessageName);
         return result.isPresent();
     }
 }
